@@ -4,6 +4,10 @@ import 'dotenv/config'
 import fastifyCors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import { timeStamp } from 'node:console';
+import productRoutes from './routes/products.routes';
+import swagger from '@fastify/swagger';
+import scalar from '@scalar/fastify-api-reference'
+
 
 const PORT = parseInt(process.env.PORT ?? '3000');
 
@@ -19,6 +23,43 @@ fastify.register(fastifyCors,{
 fastify.register(helmet, {
   contentSecurityPolicy: false, 
 });
+
+fastify.register(swagger, {
+  openapi: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Syntax Wear API',
+      description: 'API para o e-commerce Syntax Wear',
+      version: '1.0.0',
+    },
+    servers: [
+      {
+        url: `http://localhost:${PORT}`,
+        description: 'Servidor de desenvolvimento',
+      }
+    ],
+
+    components: {
+        securitySchemes: {
+           bearerAuth: {
+              type: 'http',
+              scheme: 'bearer',
+              bearerFormat: 'JWT',
+              description: 'Autenticação via token JWT',
+           },
+        },
+      },
+  },
+});
+
+fastify.register(scalar, {
+  routePrefix: '/api-docs',
+  configuration: {
+    theme: 'default',
+  }
+})
+
+fastify.register(productRoutes, { prefix: '/products' });
 
 // Declare a route
 fastify.get('/', async function handler (request, reply) {
