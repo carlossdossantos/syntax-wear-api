@@ -2,7 +2,7 @@ export interface ProductFilters{
     page?: number;
     limit?: number;
     minPrice?: number;
-    maxPrice?: number
+    maxPrice?: number;
     search?: string;
     sortBy: 'price' | 'name' | 'createdAt';
     sortOrder: 'asc' | 'desc';
@@ -19,4 +19,16 @@ export interface RegisterRequest extends AuthRequest {
     cpf?: string;
     dateOfBirth?: string;
     phone?: string;
+}
+
+export interface CreateProduct {
+    name: string;
+    description: string;
+    price: number;
+    colors?: string[];
+    sizes?: string[];
+    slug: string;
+    stock: number;
+    active: boolean;
+    images?: string[];
 }
