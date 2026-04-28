@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { loginUser, registerUser } from "../services/auth.service";
 import { AuthRequest, RegisterRequest } from "../types";
 import z, { email } from "zod";
-import { loginSchema, registerSchema } from "../utils/validator";
+import { loginSchema, registerSchema } from "../utils/validators";
 
 export const register = async (request: FastifyRequest, reply: FastifyReply) => {
     // Lógica de registro de usuário
