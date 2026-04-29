@@ -1,152 +1,216 @@
-import prisma from "../lib/prisma";
+import 'dotenv/config'
+import prisma from '../lib/prisma'
+
+const categories = [
+  {
+    name: 'Camisetas',
+    slug: 'camisetas',
+    description: 'Camisetas casuais e confortáveis para o dia a dia',
+    active: true,
+  },
+  {
+    name: 'Moletons',
+    slug: 'moletons',
+    description: 'Moletons quentes e estilosos',
+    active: true,
+  },
+  {
+    name: 'Calças',
+    slug: 'calcas',
+    description: 'Calças e jeans para todas as ocasiões',
+    active: true,
+  },
+  {
+    name: 'Shorts',
+    slug: 'shorts',
+    description: 'Shorts esportivos e casuais',
+    active: true,
+  },
+  {
+    name: 'Acessórios',
+    slug: 'acessorios',
+    description: 'Cintos, bonés, mochilas e mais',
+    active: true,
+  },
+  {
+    name: 'Vestidos',
+    slug: 'vestidos',
+    description: 'Vestidos para diversas ocasiões',
+    active: true,
+  },
+  {
+    name: 'Calçados',
+    slug: 'calcados',
+    description: 'Tênis, sapatos e sandálias',
+    active: true,
+  },
+  {
+    name: 'Meias',
+    slug: 'meias',
+    description: 'Meias confortáveis em diversos estilos',
+    active: true,
+  },
+]
+
+const products = [
+  {
+    name: 'Classic Tee',
+    slug: 'classic-tee',
+    description: 'Camiseta clássica, confortável e versátil.',
+    price: '29.99',
+    colors: ['Black', 'White'],
+    images: ['https://placehold.co/600x400?text=classic-tee+1', 'https://placehold.co/600x400?text=classic-tee+2'],
+    sizes: ['S', 'M', 'L'],
+    stock: 120,
+    active: true,
+  },
+  {
+    name: 'Vintage Hoodie',
+    slug: 'vintage-hoodie',
+    description: 'Moletom estilo vintage com caimento oversized.',
+    price: '59.90',
+    colors: ['Gray', 'Navy'],
+    images: ['https://placehold.co/600x400?text=vintage-hoodie+1'],
+    sizes: ['M', 'L', 'XL'],
+    stock: 60,
+    active: true,
+  },
+  {
+    name: 'Slim Jeans',
+    slug: 'slim-jeans',
+    description: 'Jeans slim fit, tecido stretch para maior conforto.',
+    price: '79.50',
+    colors: ['Blue'],
+    images: ['https://placehold.co/600x400?text=slim-jeans+1'],
+    sizes: ['30', '32', '34', '36'],
+    stock: 40,
+    active: true,
+  },
+  {
+    name: 'Sport Shorts',
+    slug: 'sport-shorts',
+    description: 'Shorts esportivo, ideal para treinos.',
+    price: '24.00',
+    colors: ['Black', 'Green'],
+    images: ['https://placehold.co/600x400?text=sport-shorts+1'],
+    sizes: ['S', 'M', 'L'],
+    stock: 200,
+    active: true,
+  },
+  {
+    name: 'Leather Belt',
+    slug: 'leather-belt',
+    description: 'Cinto de couro legítimo com fivela metálica.',
+    price: '19.99',
+    colors: ['Brown', 'Black'],
+    images: ['https://placehold.co/600x400?text=leather-belt+1'],
+    sizes: ['M', 'L'],
+    stock: 80,
+    active: true,
+  },
+  {
+    name: 'Summer Dress',
+    slug: 'summer-dress',
+    description: 'Vestido leve para dias quentes.',
+    price: '49.00',
+    colors: ['Yellow', 'White'],
+    images: ['https://placehold.co/600x400?text=summer-dress+1'],
+    sizes: ['S', 'M', 'L'],
+    stock: 30,
+    active: true,
+  },
+  {
+    name: 'Running Shoes',
+    slug: 'running-shoes',
+    description: 'Tênis de corrida com amortecimento avançado.',
+    price: '119.99',
+    colors: ['Black', 'Red'],
+    images: ['https://placehold.co/600x400?text=running-shoes+1'],
+    sizes: ['40', '41', '42', '43'],
+    stock: 75,
+    active: true,
+  },
+  {
+    name: 'Beanie Cap',
+    slug: 'beanie-cap',
+    description: 'Gorro em malha, estilo urbano.',
+    price: '12.50',
+    colors: ['Black', 'Gray'],
+    images: ['https://placehold.co/600x400?text=beanie-cap+1'],
+    sizes: [],
+    stock: 150,
+    active: true,
+  },
+  {
+    name: 'Canvas Backpack',
+    slug: 'canvas-backpack',
+    description: 'Mochila de lona com múltiplos compartimentos.',
+    price: '69.00',
+    colors: ['Olive', 'Black'],
+    images: ['https://placehold.co/600x400?text=canvas-backpack+1'],
+    sizes: [],
+    stock: 45,
+    active: true,
+  },
+  {
+    name: 'Striped Socks',
+    slug: 'striped-socks',
+    description: 'Meias listradas em algodão macio.',
+    price: '6.99',
+    colors: ['White', 'Blue'],
+    images: ['https://placehold.co/600x400?text=striped-socks+1'],
+    sizes: ['One Size'],
+    stock: 300,
+    active: true,
+  },
+]
 
 async function main() {
-  // Clear existing products
-  await prisma.product.deleteMany();
+  try {
+    // Limpar dados existentes
+    await prisma.product.deleteMany({})
+    await prisma.category.deleteMany({})
+    console.log('🗑️  Dados antigos removidos')
 
-  // Create 10 products
-  const products = await Promise.all([
-    prisma.product.create({
-      data: {
-        name: "T-Shirt Classic",
-        slug: "t-shirt-classic",
-        description: "Camiseta clássica em algodão puro",
-        price: 79.99,
-        stock: 50,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=T-Shirt+Classic"],
-        sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-        colors: ["Preto", "Branco", "Cinza"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Hoodie Premium",
-        slug: "hoodie-premium",
-        description: "Moletom premium com acabamento de qualidade",
-        price: 149.99,
-        stock: 30,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Hoodie+Premium"],
-        sizes: ["S", "M", "L", "XL"],
-        colors: ["Preto", "Cinza", "Azul Marinho"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Calça Jeans Slim",
-        slug: "calca-jeans-slim",
-        description: "Calça jeans slim fit com design moderno",
-        price: 119.99,
-        stock: 40,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Calça+Jeans+Slim"],
-        sizes: ["28", "30", "32", "34", "36", "38"],
-        colors: ["Azul Escuro", "Azul Claro", "Preto"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Jaqueta de Couro",
-        slug: "jaqueta-couro",
-        description: "Jaqueta de couro genuíno com forro confortável",
-        price: 299.99,
-        stock: 15,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Jaqueta+Couro"],
-        sizes: ["P", "M", "G", "GG"],
-        colors: ["Preto", "Marrom"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Vestido Social",
-        slug: "vestido-social",
-        description: "Vestido social elegante para ocasiões especiais",
-        price: 179.99,
-        stock: 25,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Vestido+Social"],
-        sizes: ["XS", "S", "M", "L"],
-        colors: ["Preto", "Burgundy", "Azul Marinho"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Shorts Casual",
-        slug: "shorts-casual",
-        description: "Shorts casual confortável para o dia a dia",
-        price: 59.99,
-        stock: 60,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Shorts+Casual"],
-        sizes: ["XS", "S", "M", "L", "XL"],
-        colors: ["Preto", "Branco", "Cáqui", "Bege"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Camisa Social Branca",
-        slug: "camisa-social-branca",
-        description: "Camisa social branca de algodão premium",
-        price: 99.99,
-        stock: 45,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Camisa+Social"],
-        sizes: ["P", "M", "G", "GG", "XG"],
-        colors: ["Branco", "Azul Claro", "Rosa"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Legging Fitness",
-        slug: "legging-fitness",
-        description: "Legging confortável para práticas esportivas",
-        price: 89.99,
-        stock: 55,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Legging+Fitness"],
-        sizes: ["XS", "S", "M", "L", "XL"],
-        colors: ["Preto", "Cinza", "Roxo", "Rosa"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Blazer Executivo",
-        slug: "blazer-executivo",
-        description: "Blazer elegante para ambientes corporativos",
-        price: 199.99,
-        stock: 20,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Blazer+Executivo"],
-        sizes: ["P", "M", "G", "GG"],
-        colors: ["Preto", "Cinza", "Marrom"],
-      },
-    }),
-    prisma.product.create({
-      data: {
-        name: "Tênis Esportivo",
-        slug: "tenis-esportivo",
-        description: "Tênis esportivo de alta performance com amortecimento",
-        price: 139.99,
-        stock: 35,
-        active: true,
-        images: ["https://via.placeholder.com/300?text=Tenis+Esportivo"],
-        sizes: ["33", "34", "35", "36", "37", "38", "39", "40", "41", "42"],
-        colors: ["Preto", "Branco", "Vermelho", "Azul"],
-      },
-    }),
-  ]);
+    // Criar categorias
+    const createdCategories = await prisma.category.createMany({ data: categories })
+    console.log(`✅ ${createdCategories.count} categorias criadas`)
 
-  console.log(`✅ Seed completed! ${products.length} products created.`);
+    // Buscar categorias criadas para obter IDs
+    const camisetas = await prisma.category.findUnique({ where: { slug: 'camisetas' } })
+    const moletons = await prisma.category.findUnique({ where: { slug: 'moletons' } })
+    const calcas = await prisma.category.findUnique({ where: { slug: 'calcas' } })
+    const shorts = await prisma.category.findUnique({ where: { slug: 'shorts' } })
+    const acessorios = await prisma.category.findUnique({ where: { slug: 'acessorios' } })
+    const vestidos = await prisma.category.findUnique({ where: { slug: 'vestidos' } })
+    const calcados = await prisma.category.findUnique({ where: { slug: 'calcados' } })
+    const meias = await prisma.category.findUnique({ where: { slug: 'meias' } })
+
+    // Adicionar categoryId aos produtos
+    const productsWithCategory = [
+      { ...products[0], categoryId: camisetas!.id },      // Classic Tee
+      { ...products[1], categoryId: moletons!.id },       // Vintage Hoodie
+      { ...products[2], categoryId: calcas!.id },         // Slim Jeans
+      { ...products[3], categoryId: shorts!.id },         // Sport Shorts
+      { ...products[4], categoryId: acessorios!.id },     // Leather Belt
+      { ...products[5], categoryId: vestidos!.id },       // Summer Dress
+      { ...products[6], categoryId: calcados!.id },       // Running Shoes
+      { ...products[7], categoryId: acessorios!.id },     // Beanie Cap
+      { ...products[8], categoryId: acessorios!.id },     // Canvas Backpack
+      { ...products[9], categoryId: meias!.id },          // Striped Socks
+    ]
+
+    // Criar produtos
+    const createdProducts = await prisma.product.createMany({ data: productsWithCategory })
+    console.log(`✅ ${createdProducts.count} produtos criados com categorias vinculadas`)
+    
+    console.log('🎉 Seed finalizado com sucesso!')
+  } catch (error) {
+    console.error('❌ Erro no seed:', error)
+    process.exit(1)
+  } finally {
+    await prisma.$disconnect()
+  }
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error("❌ Seed failed:", e);
-    await prisma.$disconnect();
-    process.exit(1);
-  });

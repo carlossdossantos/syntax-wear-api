@@ -1,43 +1,55 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
+  provider = "postgresql"
 }
 
+// Models based on PRD (users and products)
+
 model User {
-    id        Int       @id @default(autoincrement())
-    firstName String
-    lastName  String
-    email     String    @unique
-    password  String
-    cpf       String?   @unique
-    phone     String?
-    birthDate DateTime?
-    createdAt DateTime  @default(now())
-    role      Role      @default(USER)
+  id        Int       @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String    @unique
+  password  String
+  cpf       String?   @unique
+  phone     String?
+  birthDate DateTime?
+  createdAt DateTime  @default(now())
+  role      Role      @default(USER)
 }
 
 enum Role {
-    USER
-    ADMIN
+  USER
+  ADMIN
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  slug        String    @unique
+  description String?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
 }
 
 model Product {
-    id          Int      @id @default(autoincrement())
-    name        String
-    slug        String   @unique
-    description String?
-    price       Decimal
-    images      Json?
-    sizes       Json?
-    colors      Json?
-    stock       Int      @default(0)
-    active      Boolean  @default(true)
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?
+  price       Decimal
+  colors      Json?
+  images      Json?
+  sizes       Json?
+  stock       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
 }
