@@ -1,5 +1,5 @@
-import { loginUser, registerUser } from "../services/auth.service";
-import { loginSchema, registerSchema } from "../utils/validators";
+import { loginUser, registerUser } from "../services/auth.service.js";
+import { loginSchema, registerSchema } from "../utils/validators.js";
 export const register = async (request, reply) => {
     // Lógica de registro de usuário
     const validation = registerSchema.parse(request.body);

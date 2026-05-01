@@ -1,5 +1,5 @@
-import { createNewProduct, getProduct, listProducts, updateExistingProduct, deleteExistingProduct } from "../controllers/products.controller";
-import { requireAdmin } from "../middlewares/admin.middleware";
+import { createNewProduct, getProduct, listProducts, updateExistingProduct, deleteExistingProduct } from "../controllers/products.controller.js";
+import { requireAdmin } from "../middlewares/admin.middleware.js";
 export default async function productRoutes(fastify) {
     fastify.get("/", {
         schema: {

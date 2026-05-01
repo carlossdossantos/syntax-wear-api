@@ -1,5 +1,5 @@
-import { listCategories, getCategory, createNewCategory, updateExistingCategory, deleteExistingCategory } from "../controllers/categories.controller";
-import { requireAdmin } from "../middlewares/admin.middleware";
+import { listCategories, getCategory, createNewCategory, updateExistingCategory, deleteExistingCategory } from "../controllers/categories.controller.js";
+import { requireAdmin } from "../middlewares/admin.middleware.js";
 export default async function categoryRoutes(fastify) {
     fastify.get("/", {
         schema: {

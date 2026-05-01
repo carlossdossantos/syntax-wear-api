@@ -1,6 +1,6 @@
-import { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory } from "../services/categories.service";
-import { categoryFiltersSchema, createCategorySchema, updateCategorySchema } from "../utils/validators";
-import { generateSlug } from "../utils/slug";
+import { getCategories, getCategoryById, createCategory, updateCategory, deleteCategory } from "../services/categories.service.js";
+import { categoryFiltersSchema, createCategorySchema, updateCategorySchema } from "../utils/validators.js";
+import { generateSlug } from "../utils/slug.js";
 export const listCategories = async (request, reply) => {
     const filters = categoryFiltersSchema.parse(request.query);
     const result = await getCategories(filters);

@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { CreateProduct, ProductFilters } from "../types";
+import { CreateProduct, ProductFilters } from "../types/index.js";
 export declare const listProducts: (request: FastifyRequest<{
     Querystring: ProductFilters;
 }>, reply: FastifyReply) => Promise<void>;

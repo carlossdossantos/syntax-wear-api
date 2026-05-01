@@ -1,4 +1,4 @@
-import { OrderFilters, CreateOrder, UpdateOrder } from '../types';
+import { OrderFilters, CreateOrder, UpdateOrder } from '../types/index.js';
 export declare function getOrders(filters: OrderFilters | undefined, requestingUserId: number, isAdmin: boolean): Promise<{
     data: {
         createdAt: Date;

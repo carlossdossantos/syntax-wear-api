@@ -1,4 +1,4 @@
-import { CreateProduct, ProductFilters, UpdateProduct } from "../types";
+import { CreateProduct, ProductFilters, UpdateProduct } from "../types/index.js";
 export declare const getProducts: (filter: ProductFilters) => Promise<{
     data: {
         price: import("@prisma/client-runtime-utils").Decimal;

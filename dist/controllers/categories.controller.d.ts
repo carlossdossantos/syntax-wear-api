@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { CategoryFilters, CreateCategory } from "../types";
+import { CategoryFilters, CreateCategory } from "../types/index.js";
 export declare const listCategories: (request: FastifyRequest<{
     Querystring: CategoryFilters;
 }>, reply: FastifyReply) => Promise<void>;

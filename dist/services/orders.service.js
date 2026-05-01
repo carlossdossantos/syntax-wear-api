@@ -1,4 +1,4 @@
-import { prisma } from '../utils/prisma';
+import { prisma } from '../utils/prisma.js';
 export async function getOrders(filters = {}, requestingUserId, isAdmin) {
     const page = filters.page || 1;
     const limit = filters.limit || 10;

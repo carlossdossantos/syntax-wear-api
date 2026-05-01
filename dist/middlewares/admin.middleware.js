@@ -1,4 +1,4 @@
-import { prisma } from "../utils/prisma";
+import { prisma } from "../utils/prisma.js";
 export const requireAdmin = async (request, reply) => {
     try {
         // Primeiro verifica se o token JWT é válido

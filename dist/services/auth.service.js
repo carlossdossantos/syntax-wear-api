@@ -1,4 +1,4 @@
-import { prisma } from "../utils/prisma";
+import { prisma } from "../utils/prisma.js";
 import bcrypt from "bcrypt";
 export const registerUser = async (payload) => {
     const existingUser = await prisma.user.findUnique({

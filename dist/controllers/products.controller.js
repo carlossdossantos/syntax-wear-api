@@ -1,6 +1,6 @@
-import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from "../services/products.service";
-import { createProductSchema, deleteProductSchema, productFiltersSchema, updateProductSchema } from "../utils/validators";
-import { generateSlug } from "../utils/slug";
+import { getProducts, getProductById, createProduct, updateProduct, deleteProduct } from "../services/products.service.js";
+import { createProductSchema, deleteProductSchema, productFiltersSchema, updateProductSchema } from "../utils/validators.js";
+import { generateSlug } from "../utils/slug.js";
 export const listProducts = async (request, reply) => {
     const filters = productFiltersSchema.parse(request.query);
     const result = await getProducts(filters);

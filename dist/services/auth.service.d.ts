@@ -1,4 +1,4 @@
-import { AuthRequest, RegisterRequest } from "../types";
+import { AuthRequest, RegisterRequest } from "../types/index.js";
 export declare const registerUser: (payload: RegisterRequest) => Promise<{
     createdAt: Date;
     id: number;

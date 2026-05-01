@@ -1,5 +1,5 @@
-import { orderFiltersSchema, createOrderSchema, updateOrderSchema } from '../utils/validators';
-import { getOrders, getOrderById, createOrder, updateOrder, cancelOrder } from '../services/orders.service';
+import { orderFiltersSchema, createOrderSchema, updateOrderSchema } from '../utils/validators.js';
+import { getOrders, getOrderById, createOrder, updateOrder, cancelOrder } from '../services/orders.service.js';
 export async function listOrders(request, reply) {
     const filters = orderFiltersSchema.parse(request.query);
     // Extrair userId e role do token JWT

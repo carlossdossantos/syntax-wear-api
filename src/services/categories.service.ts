@@ -1,5 +1,5 @@
-import { prisma } from "../utils/prisma";
-import { CategoryFilters, CreateCategory, UpdateCategory } from "../types";
+import { prisma } from "../utils/prisma.js";
+import { CategoryFilters, CreateCategory, UpdateCategory } from "../types/index.js";
 import slugify from "slugify";
 
 export const getCategories = async (filters: CategoryFilters) => {

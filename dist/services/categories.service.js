@@ -1,4 +1,4 @@
-import { prisma } from "../utils/prisma";
+import { prisma } from "../utils/prisma.js";
 export const getCategories = async (filters) => {
     const { search, page = 1, limit = 10 } = filters;
     const where = {

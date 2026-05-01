@@ -1,4 +1,4 @@
-import { CategoryFilters, CreateCategory, UpdateCategory } from "../types";
+import { CategoryFilters, CreateCategory, UpdateCategory } from "../types/index.js";
 export declare const getCategories: (filters: CategoryFilters) => Promise<{
     data: {
         name: string;

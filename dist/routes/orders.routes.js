@@ -1,5 +1,5 @@
-import { listOrders, getOrder, createNewOrder, updateExistingOrder, deleteExistingOrder } from '../controllers/orders.controller';
-import { authenticate } from '../middlewares/auth.middleware';
+import { listOrders, getOrder, createNewOrder, updateExistingOrder, deleteExistingOrder } from '../controllers/orders.controller.js';
+import { authenticate } from '../middlewares/auth.middleware.js';
 export default async function orderRoutes(fastify) {
     // Aplicar autenticação em todas as rotas de pedidos
     fastify.addHook('onRequest', authenticate);
