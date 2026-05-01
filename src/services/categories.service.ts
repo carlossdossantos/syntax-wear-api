@@ -1,4 +1,4 @@
-import prisma  from "../utils/prisma";
+import { prisma } from "../utils/prisma";
 import { CategoryFilters, CreateCategory, UpdateCategory } from "../types";
 import slugify from "slugify";
 

@@ -1,5 +1,5 @@
 import { AuthRequest, RegisterRequest } from "../types";
-import prisma from "../utils/prisma";
+import { prisma } from "../utils/prisma";
 import bcrypt from "bcrypt";
 
 export const registerUser = async (payload: RegisterRequest) => {
