@@ -31,3 +31,8 @@ export const login = async (request: FastifyRequest<{ Body: AuthRequest }>, repl
 		token,
 	});
 };
+
+export const profile = async (request: FastifyRequest, reply: FastifyReply) => {
+	reply.status(200).send(request.user);
+};
+

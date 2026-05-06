@@ -61,3 +61,5 @@ export const loginUser = async (data: AuthRequest) => {
 
     return userWithoutPassword;
 };
+
+

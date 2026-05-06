@@ -14,16 +14,16 @@ export const authenticate = async (request: FastifyRequest, reply: FastifyReply)
 		
 		// Buscar role do usuário no banco
 		const user = await prisma.user.findUnique({
-			where: { id: userId },
-			select: { role: true },
+			where: { id: userId }
 		});
 		
 		if (!user) {
 			return reply.status(401).send({ message: "Usuário não encontrado." });
 		}
+
+		const {password, ...userWithoutPassword} = user;	
 		
-		// Adicionar role ao request.user para uso nos controllers
-		(request.user as any).role = user.role;
+		request.user = userWithoutPassword;
 	} catch (err) {
 		reply.status(401).send({ message: "Token inválido ou expirado" });
 	}
