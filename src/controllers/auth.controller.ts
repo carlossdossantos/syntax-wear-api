@@ -22,13 +22,22 @@ export const login = async (request: FastifyRequest<{ Body: AuthRequest }>, repl
 
 	const validation = loginSchema.parse(request.body as AuthRequest);
 
-	const user = await loginUser(validation);
+	const user = await loginUser(validation, reply);
+
+	if(!user) return;
 
 	const token = request.server.jwt.sign({ userId: user.id });
 
+	reply.setCookie("syntaxwear.token", token, {
+		httpOnly: true, // Não acessível via JavaScript
+		secure: process.env.NODE_ENV === "production", // Apenas em HTTPS no ambiente de produção
+		sameSite: "lax", // Protege contra CSRF - permite requisição de navegação normais
+		path: "/", // Disponível em todo o site todas as rotas
+		maxAge: 60 * 60 * 24 // expira no máximo em 1 dia
+	})
+
 	reply.status(200).send({
-		user,
-		token,
+		user
 	});
 };
 
