@@ -1,5 +1,6 @@
-import 'dotenv/config'
-import { prisma } from '../lib/prisma'
+/// <reference types="node" />
+
+import { prisma } from "D:/xampp/htdocs/Curso Webmaster/Aulas/syntax-wear-api/lib/prisma";
 
 const categories = [
   {
